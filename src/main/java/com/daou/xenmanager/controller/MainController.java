@@ -1,7 +1,5 @@
 package com.daou.xenmanager.controller;
 
-import com.daou.xenmanager.core.XenConnector;
-import com.daou.xenmanager.entity.XenServer;
 import com.ibm.staf.STAFException;
 import com.ibm.staf.STAFHandle;
 import com.ibm.staf.STAFResult;
@@ -20,7 +18,7 @@ public class MainController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public String index(){
-        return initXen();
+        return init();
     }
 
     public String init(){
@@ -42,17 +40,4 @@ public class MainController {
 
         return result;
     }
-
-    public String initXen(){
-        XenServer server = new XenServer("vm2.terracetech.co.kr", "root", "qwopZX!@");
-        String result = "";
-        try{
-            result = XenConnector.connect(server);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
 }
