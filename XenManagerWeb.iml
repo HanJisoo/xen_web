@@ -42,5 +42,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.3.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.3.4.RELEASE" level="project" />
     <orderEntry type="library" name="JSTAF" level="project" />
+    <orderEntry type="library" name="ws-commons-util-1.0.2" level="project" />
   </component>
 </module>
