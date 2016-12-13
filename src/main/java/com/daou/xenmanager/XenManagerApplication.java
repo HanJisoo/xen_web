@@ -17,5 +17,5 @@ public class XenManagerApplication extends SpringBootServletInitializer{
 
     public static void main(String[] args){
             SpringApplication.run(XenManagerApplication.class, args);
-        }
+    }
 }
