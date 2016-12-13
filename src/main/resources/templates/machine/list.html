@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Machine List</title>
+
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/uikit/js/uikit.min.js"></script>
+    <script src="/js/machine.js"></script>
+
+    <link rel="stylesheet" href="/uikit/css/uikit.min.css"/>
+    <link rel="stylesheet" href="/uikit/css/uikit.gradient.min.css"/>
+    <link rel="stylesheet" href="/css/base.css"/>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var machineList;
+        var page = 1;
+        $(function(){
+            machineList = /*[[${machineList}]]*/ null;
+            if(machineList != null){
+                addMachineRow(machineList);
+                pagination(machineList);
+            }else{
+                $("#nodata").removeClass("uk-hidden");
+                $("#nextBtn").hide();
+            }
+            setMenuOnclickListener("machine");
+            setAddButtonListener();
+        });
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div th:include="header :: #header-navbar" class="uk-container uk-container-center uk-margin-top"></div>
+<div class="uk-container uk-container-center uk-margin-top">
+    <ul class="uk-list uk-margin-top-remove">
+        <li class="uk-margin-small-top uk-margin-bottom">
+            <div class="uk-float-left">
+                <button class="uk-button uk-button-medium" type="button" id="add-button">ADD</button>
+            </div>
+        </li>
+        <li>
+            <div class="uk-overflow-container" id="table_area">
+                <table class="uk-table uk-table-middle" id="item_table">
+                    <colgroup>
+                        <col style="width:5%"/>
+                        <col style="width:20%"/>
+                        <col style="width:16%"/>
+                        <col style="width:10%"/>
+                        <col style="width:10%"/>
+                        <col style="width:9%"/>
+                        <col style="width:10%"/>
+                        <col style="width:10%"/>
+                        <col style="width:10%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="uk-text-middle uk-text-center">No</th>
+                        <th class="uk-text-middle uk-text-center">SerialKey</th>
+                        <th class="uk-text-middle uk-text-center">Customer</th>
+                        <th class="uk-text-middle uk-text-center">Status</th>
+                        <th class="uk-text-middle uk-text-center">Partner</th>
+                        <th class="uk-text-middle uk-text-center">Country</th>
+                        <th class="uk-text-middle uk-text-center">Model</th>
+                        <th class="uk-text-middle uk-text-center">ExpireDate</th>
+                        <th class="uk-text-middle uk-text-center">Down</th>
+                    </tr>
+                    </thead>
+                    <tbody id="item_list">
+                    </tbody>
+                </table>
+                <div id="loading" class="uk-text-center uk-margin-small-bottom">
+                    <i class="uk-icon-spinner uk-icon-spin "></i>
+                </div>
+                <ul id="pagination" class="uk-pagination"></ul>
+            </div>
+        </li>
+        <li>
+            <div id="nodata" class="uk-text-center uk-hidden">
+                등록된 자료가 없습니다.
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
