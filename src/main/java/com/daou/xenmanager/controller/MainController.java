@@ -6,7 +6,7 @@ import com.ibm.staf.STAFResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,9 +19,8 @@ public class MainController {
     private static STAFHandle handle;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
     public String index(){
-        return test();
+        return "index";
     }
 
     public String init(){
