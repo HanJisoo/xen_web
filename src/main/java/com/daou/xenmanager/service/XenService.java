@@ -3,17 +3,13 @@ package com.daou.xenmanager.service;
 import com.daou.xenmanager.domain.XenObject;
 import com.daou.xenmanager.exception.XenSTAFException;
 import com.daou.xenmanager.util.BaseUtil;
-import com.daou.xenmanager.util.STAFConstant;
 import com.daou.xenmanager.util.STAFStatus;
-import com.ibm.staf.STAFException;
 import com.ibm.staf.STAFHandle;
 import com.ibm.staf.STAFResult;
-import com.xensource.xenapi.Connection;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by user on 2016-12-14.

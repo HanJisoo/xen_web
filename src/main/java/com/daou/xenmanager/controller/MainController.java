@@ -3,9 +3,7 @@ package com.daou.xenmanager.controller;
 import com.daou.xenmanager.domain.XenObject;
 import com.daou.xenmanager.exception.XenSTAFException;
 import com.daou.xenmanager.service.XenService;
-import com.daou.xenmanager.util.STAFConstant;
 import com.daou.xenmanager.util.STAFStatus;
-import com.ibm.staf.STAFHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by user on 2016-12-07.
