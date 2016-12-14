@@ -122,6 +122,7 @@ function modalAddBtn(){
     var snapName = $('#modal-snap-name').html();
     var snapUuid = $('#modal-snap-uuid').html();
     var inputName = $('#input-name').val();
+    var modal = UIkit.modal("#modal-input");
 
     $.ajax({
             type: "get",
@@ -131,7 +132,7 @@ function modalAddBtn(){
             success: function(data){
                 console.log(data);
                 if(data.status == "success"){
-                    console.log("success");
+                    modal.hide();
                 }else{
                     $('#modal-add-fail').html(data.message);
                     $('#modal-add-fail').removeClass("uk-hidden");
