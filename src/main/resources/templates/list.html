@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Machine List</title>
+    <title>Xen-Manager</title>
 
     <script src="/js/jquery-3.1.1.min.js"></script>
     <script src="/uikit/js/uikit.min.js"></script>
-    <script src="/js/machine.js"></script>
+    <script src="/js/base.js"></script>
 
     <link rel="stylesheet" href="/uikit/css/uikit.min.css"/>
     <link rel="stylesheet" href="/uikit/css/uikit.gradient.min.css"/>
@@ -14,19 +14,30 @@
 
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var machineList;
+        var list;
+        var result;
         var page = 1;
         $(function(){
-            machineList = /*[[${machineList}]]*/ null;
-            if(machineList != null){
-                addMachineRow(machineList);
-                pagination(machineList);
+            var type = /*[[${type}]]*/ null;
+            list = /*[[${list}]]*/ null;
+            result = /*[[${result}]]*/ null;
+
+            setMenuOnclickListener(type);
+
+            $("#list-title").text(type + " list");
+
+            if(result.status == "fail"){
+                console.log(result.message);
+            }else{
+                console.log(list);
+            }
+
+            if(list != null){
+                addRow(list);
             }else{
                 $("#nodata").removeClass("uk-hidden");
                 $("#nextBtn").hide();
             }
-            setMenuOnclickListener("machine");
-            setAddButtonListener();
         });
         /*]]>*/
     </script>
@@ -35,36 +46,24 @@
 <div th:include="header :: #header-navbar" class="uk-container uk-container-center uk-margin-top"></div>
 <div class="uk-container uk-container-center uk-margin-top">
     <ul class="uk-list uk-margin-top-remove">
-        <li class="uk-margin-small-top uk-margin-bottom">
-            <div class="uk-float-left">
-                <button class="uk-button uk-button-medium" type="button" id="add-button">ADD</button>
-            </div>
+        <li class="uk-margin-large-top uk-margin-large-bottom">
+           <div class="uk-text-middle uk-text-center xm-font-size-30 xm-font-bold" id="list-title"></div>
         </li>
         <li>
             <div class="uk-overflow-container" id="table_area">
                 <table class="uk-table uk-table-middle" id="item_table">
                     <colgroup>
-                        <col style="width:5%"/>
+                        <col style="width:10%"/>
+                        <col style="width:40%"/>
+                        <col style="width:30%"/>
                         <col style="width:20%"/>
-                        <col style="width:16%"/>
-                        <col style="width:10%"/>
-                        <col style="width:10%"/>
-                        <col style="width:9%"/>
-                        <col style="width:10%"/>
-                        <col style="width:10%"/>
-                        <col style="width:10%"/>
                     </colgroup>
                     <thead>
                     <tr>
-                        <th class="uk-text-middle uk-text-center">No</th>
-                        <th class="uk-text-middle uk-text-center">SerialKey</th>
-                        <th class="uk-text-middle uk-text-center">Customer</th>
-                        <th class="uk-text-middle uk-text-center">Status</th>
-                        <th class="uk-text-middle uk-text-center">Partner</th>
-                        <th class="uk-text-middle uk-text-center">Country</th>
-                        <th class="uk-text-middle uk-text-center">Model</th>
-                        <th class="uk-text-middle uk-text-center">ExpireDate</th>
-                        <th class="uk-text-middle uk-text-center">Down</th>
+                        <th class="uk-text-middle uk-text-center">NO</th>
+                        <th class="uk-text-middle uk-text-center">UUID</th>
+                        <th class="uk-text-middle uk-text-center">NAME</th>
+                        <th class="uk-text-middle uk-text-center">FUNCTION</th>
                     </tr>
                     </thead>
                     <tbody id="item_list">
@@ -73,7 +72,6 @@
                 <div id="loading" class="uk-text-center uk-margin-small-bottom">
                     <i class="uk-icon-spinner uk-icon-spin "></i>
                 </div>
-                <ul id="pagination" class="uk-pagination"></ul>
             </div>
         </li>
         <li>
@@ -82,6 +80,38 @@
             </div>
         </li>
     </ul>
+    <div id="modal-input" class="uk-modal">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header xm-font-bold xm-font-size-15">VM Create</div>
+            <div class="xm-font-bold xm-font-size-11">SNAPSHOT-NAME</div>
+            <div id="modal-snap-name" class="xm-font-size-10 xm-margin-top-5"></div>
+            <div class="uk-margin-top xm-font-size-11 xm-font-bold">SNAPSHOT-UUID</div>
+            <div id="modal-snap-uuid" class="xm-font-size-10 xm-margin-top-5"></div>
+            <div class="uk-margin-top xm-font-bold xm-font-size-11">NEW VM-NAME</div>
+            <input id="input-name" type="text" class="uk-width-1-1 xm-font-size-10 xm-margin-top-5"/>
+            <div id="modal-add-fail" class="uk-hidden xm-font-color-red"></div>
+            <div class="uk-modal-footer uk-text-align-right">
+                <button id="modal-add-button" class="uk-button uk-button-primary" onclick="modalAddBtn();">ADD VM</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-remove" class="uk-modal">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header xm-font-bold xm-font-size-15">정말 지우시겠습니까?</div>
+            <div class="xm-font-bold xm-font-size-11">VM-NAME</div>
+            <div id="modal-vm-name" class="xm-font-size-10 xm-margin-top-5"></div>
+            <div class="uk-margin-top xm-font-size-11 xm-font-bold">VM-UUID</div>
+            <div id="modal-vm-uuid" class="xm-font-size-10 xm-margin-top-5"></div>
+            <div id="modal-remove-fail" class="uk-hidden xm-font-color-red"></div>
+            <div id="modal-list-index" class="uk-hidden"></div>
+            <div class="uk-modal-footer uk-text-align-right">
+                <button id="modal-remove-button" class="uk-button uk-button-primary" onclick="modalRemoveBtn();">REMOVE VM</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

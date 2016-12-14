@@ -7,7 +7,7 @@
     <groupId>XenManagerWeb</groupId>
     <artifactId>XenManagerWeb</artifactId>
     <version>0.0.1</version>
-    <packaging>war</packaging>
+    <!--<packaging>war</packaging>-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -28,11 +28,11 @@
             <artifactId>JSTAF</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <properties>
@@ -40,7 +40,7 @@
         <tomcat.version>8.5.8</tomcat.version>
     </properties>
 
-    <build>
+    <!--<build>
         <finalName>xen_manager</finalName>
         <plugins>
             <plugin>
@@ -51,5 +51,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>

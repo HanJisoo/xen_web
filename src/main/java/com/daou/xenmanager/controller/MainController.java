@@ -1,69 +1,77 @@
 package com.daou.xenmanager.controller;
 
-import com.ibm.staf.STAFException;
+import com.daou.xenmanager.domain.XenObject;
+import com.daou.xenmanager.exception.XenSTAFException;
+import com.daou.xenmanager.service.XenService;
+import com.daou.xenmanager.util.STAFConstant;
+import com.daou.xenmanager.util.STAFStatus;
 import com.ibm.staf.STAFHandle;
-import com.ibm.staf.STAFResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by user on 2016-12-07.
  */
 @Controller
 public class MainController {
-    private static STAFHandle handle;
+    @Autowired
+    private XenService xenService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(){
         return "index";
     }
 
-    public String init(){
-        String result = "fail";
-        String kkk = "";
+    @RequestMapping(value = "/xen/list", method = RequestMethod.GET)
+    public ModelAndView getListByType(Model model, @RequestParam(value = "type", defaultValue = "vm") String type){
+        ModelAndView mav = new ModelAndView("list", model.asMap());
+        STAFStatus status = null;
+        ArrayList<XenObject> list;
         try{
-            handle = new STAFHandle("Xen-Manager");
-        }catch (STAFException e){
-            return "Error registering wigth STAF, RC : " + e.rc;
+            list = xenService.getListFromSTAFByType(type);
+            mav.addObject("list", list);
+        }catch (XenSTAFException e){
+            status = new STAFStatus(e.toString(), "fail");
         }
-        //STAFResult sr = handle.submit2("local", "xen_manager", "list snap-shot");
-        STAFResult sr = handle.submit2("local", "xen_manager", "list snap-shot");
-        if(sr.rc != 0){
-            result = "RC : " + sr.rc + ", " + sr.result;
-        }else{
-            result = sr.result.substring(1, sr.result.length()-1);
-            String[] keyValuePairs = result.split(",");
-            Map<String, String> map = new HashMap<>();
-            for(String pair : keyValuePairs){
-                String[] item = pair.split("=");
-                map.put(item[0], item[1]);
-            }
-            result = map.toString();
+        if(status == null){
+            status = new STAFStatus("success", "success");
+        }
+        mav.addObject("result", status);
+        mav.addObject("type", type);
+        return mav;
+    }
+
+
+    @RequestMapping(value = "/xen/add", method = RequestMethod.GET)
+    @ResponseBody
+    public STAFStatus addVMBySnapshot(@RequestParam(value = "vmName")String vmName, @RequestParam(value = "snapUuid") String snapUuid, @RequestParam(value = "snapName") String snapName){
+        STAFStatus result;
+        try{
+            result = xenService.addVMBySnapshot(vmName, snapUuid, snapName);
+        }catch (XenSTAFException e){
+            result = new STAFStatus(e.toString(), "fail");
         }
         return result;
     }
 
-    public String test(){
-        String result = "fail";
+    @RequestMapping(value = "/xen/remove", method = RequestMethod.GET)
+    @ResponseBody
+    public STAFStatus deleteVM(@RequestParam(value = "vmName")String vmName, @RequestParam(value = "vmUuid") String vmUuid){
+        STAFStatus result;
         try{
-            handle = new STAFHandle("Xen-Manager");
-        }catch (STAFException e){
-            return "Error registering wigth STAF, RC : " + e.rc;
+            result = xenService.deleteVM(vmName, vmUuid);
+        }catch (XenSTAFException e){
+            result = new STAFStatus(e.toString(), "fail");
         }
-        //STAFResult sr = handle.submit2("local", "xen_manager", "list snap-shot");
-        STAFResult sr = handle.submit2("local", "xen_manager", "list snap-shot");
-        if(sr.rc != 0){
-            result = "RC : " + sr.rc + ", " + sr.result;
-        }else{
-            //result = sr.resultObj.toString();
-            result = sr.result;
-        }
-
         return result;
     }
 }

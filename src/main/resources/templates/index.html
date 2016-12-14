@@ -3,12 +3,21 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Index Page</title>
-    <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="/uikit/js/uikit.min.js"></script>
+
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/uikit/js/uikit.min.js"></script>
+    <script src="/js/base.js"></script>
+
     <link rel="stylesheet" href="/uikit/css/uikit.min.css"/>
+    <link rel="stylesheet" href="/uikit/css/uikit.gradient.min.css"/>
     <link rel="stylesheet" href="/css/base.css"/>
+    <script>
+        $(function () {
+            setMenuOnclickListener("index");
+        });
+    </script>
 </head>
 <body>
-index!
+<div th:include="header :: #header-navbar" class="uk-container uk-container-center uk-margin-top"></div>
 </body>
 </html>
