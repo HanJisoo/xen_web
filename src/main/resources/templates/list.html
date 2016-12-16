@@ -27,17 +27,16 @@
             $("#list-title").text(type + " list");
 
             if(result.status == "fail"){
-                console.log(result.message);
+                alert("다시 시도해 주세요");
             }else{
-                console.log(list);
+                if(list != null){
+                addRow(list);
+                }else{
+                    $("#nodata").removeClass("uk-hidden");
+                    $("#nextBtn").hide();
+                }
             }
 
-            if(list != null){
-                addRow(list);
-            }else{
-                $("#nodata").removeClass("uk-hidden");
-                $("#nextBtn").hide();
-            }
         });
         /*]]>*/
     </script>

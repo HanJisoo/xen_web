@@ -37,4 +37,3 @@ buildNumber.properties
 out
 gen
 .gitignore
-src/test/

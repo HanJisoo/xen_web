@@ -20,7 +20,6 @@ function addRow(data){
             }else{
                 var modalTarget = "{target:'#modal-input'}"
                 var addOnclick = "addBtn('" + id + "');"
-                //functionBtn = "<button class='uk-button uk-button-medium' type='button' id='add-button' data-uk-modal=" + modalTarget + ">ADD</button>";
                 functionBtn = "<button class='uk-button uk-button-medium' type='button' id='add-button' onclick=" + addOnclick + ">ADD</button>";
             }
         with(item){
@@ -102,14 +101,12 @@ function modalRemoveBtn(){
             url: '/xen/remove?vmName=' + name + '&vmUuid=' + uuid,
             async: true,
             success: function(data){
-                console.log(data);
                 if(data.status == "success"){
                     modal.hide();
-                    console.log("success");
                     list.splice(realIndex, 1);
                     addRow(list);
                 }else{
-                    console.log("fail..." + data.message);
+                    alert("fail..." + data.message);
                 }
             },
             error: function(xhr,Textstatus,error) {

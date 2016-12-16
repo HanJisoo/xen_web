@@ -20,6 +20,7 @@ public class XenService {
 
     private STAFHandle initHandler() throws XenSTAFException{
         STAFHandle handle;
+        //get STAF handler
         try {
             handle = new STAFHandle("Xen-Manager");
         }catch (Exception e) {
@@ -31,12 +32,12 @@ public class XenService {
     public ArrayList<XenObject> getListFromSTAFByType(String type) throws XenSTAFException{
         HashMap<String, String> resultMap;
         ArrayList<XenObject> resultList = new ArrayList<>();
+        //check handler
         if(mHandle == null){
             mHandle = initHandler();
         }
-
+        //send command to STAF Service
         STAFResult sr = mHandle.submit2("local", "xen_manager", "LIST " + type);
-
         if(sr.rc != 0){
             throw new XenSTAFException("handle", "RC : " + sr.rc + ", " + sr.result);
         }else{
@@ -46,8 +47,10 @@ public class XenService {
                 resultMap = new HashMap<>();
             }
         }
+        //make map to list
         if(resultMap.size() != 0){
            for (String uuid : resultMap.keySet()){
+               //add data except STAF's default map
                if(!"staf-map-class-name".equals(uuid)){
                    resultList.add(new XenObject(resultMap.get(uuid), uuid));
                }
@@ -57,14 +60,16 @@ public class XenService {
     }
 
     public STAFStatus addVMBySnapshot(String vmName, String snapUuid, String snapName) throws XenSTAFException{
+        //make quotation string for STAF request
         String qVmName = BaseUtil.getQuoteString(vmName);
         String qSnapUuid = BaseUtil.getQuoteString(snapUuid);
         String qSnapName = BaseUtil.getQuoteString(snapName);
         STAFStatus status;
-
+        //check handler
         if(mHandle == null){
             mHandle = initHandler();
         }
+        //send command to STAF Service
         STAFResult sr = mHandle.submit2("local", "xen_manager", "ADD" + " VM-NAME " + qVmName + " SNAP-NAME " + qSnapName + " SNAP-UUID " + qSnapUuid);
         System.out.println("ADD" + " VM-NAME " + qVmName + " SNAP-NAME " + qSnapName + " SNAP-UUID " + qSnapUuid);
         if(sr.rc != 0){
@@ -75,18 +80,16 @@ public class XenService {
         return status;
     }
 
-    public void test()throws XenSTAFException{
-
-    }
-
     public STAFStatus deleteVM(String vmName, String vmUuid) throws XenSTAFException{
+        //make quotation string for STAF request
         String qVmName = BaseUtil.getQuoteString(vmName);
         String qVmUuid = BaseUtil.getQuoteString(vmUuid);
         STAFStatus status;
-
+        //check handler
         if(mHandle == null){
             mHandle = initHandler();
         }
+        //send command to STAF Service
         STAFResult sr = mHandle.submit2("local", "xen_manager", "DELETE" + " VM-NAME " + qVmName + " VM-UUID " + qVmUuid);
         if(sr.rc != 0){
             throw new XenSTAFException("handle", "RC : " + sr.rc + ", " + sr.result);
