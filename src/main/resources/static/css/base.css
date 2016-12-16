@@ -4,6 +4,9 @@
 .xm-font-color-red{
     color:rgb(255, 0, 0) !important;
 }
+.xm-font-color-light-red{
+    color:rgb(238, 229, 224) !important;
+}
 .xm-font-bold{
     font-weight:bold !important;
 }
@@ -22,4 +25,6 @@
 .xm-font-size-30{
     font-size:3em !important;
 }
-
+.xm-font-size-50{
+    font-size:5em !important;
+}

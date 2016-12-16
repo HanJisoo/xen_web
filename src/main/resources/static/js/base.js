@@ -105,6 +105,7 @@ function modalRemoveBtn(){
                     modal.hide();
                     list.splice(realIndex, 1);
                     addRow(list);
+                    alert("remove success!");
                 }else{
                     alert("fail..." + data.message);
                 }
@@ -120,7 +121,7 @@ function modalAddBtn(){
     var snapUuid = $('#modal-snap-uuid').html();
     var inputName = $('#input-name').val();
     var modal = UIkit.modal("#modal-input");
-
+    //send request to controller
     $.ajax({
             type: "get",
             cache: false,
@@ -130,7 +131,9 @@ function modalAddBtn(){
                 console.log(data);
                 if(data.status == "success"){
                     modal.hide();
+                    alert("add success!");
                 }else{
+                    //display error message
                     $('#modal-add-fail').html(data.message);
                     $('#modal-add-fail').removeClass("uk-hidden");
                 }

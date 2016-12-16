@@ -71,7 +71,6 @@ public class XenService {
         }
         //send command to STAF Service
         STAFResult sr = mHandle.submit2("local", "xen_manager", "ADD" + " VM-NAME " + qVmName + " SNAP-NAME " + qSnapName + " SNAP-UUID " + qSnapUuid);
-        System.out.println("ADD" + " VM-NAME " + qVmName + " SNAP-NAME " + qSnapName + " SNAP-UUID " + qSnapUuid);
         if(sr.rc != 0){
             throw new XenSTAFException("handle", "RC : " + sr.rc + ", " + sr.result);
         }else{

@@ -22,12 +22,21 @@ import java.util.ArrayList;
 public class MainController {
     @Autowired
     private XenService xenService;
-
+    /**
+     * XEN-MANAGER-01
+     * Get Index Page
+     * @return index page
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(){
         return "index";
     }
-
+    /**
+     * XEN-MANAGER-02
+     * Get List By Type
+     * @param type - must have vm or snap-shot
+     * @return list page & list data & status
+     */
     @RequestMapping(value = "/xen/list", method = RequestMethod.GET)
     public ModelAndView getListByType(Model model, @RequestParam(value = "type", defaultValue = "vm") String type){
         ModelAndView mav = new ModelAndView("list", model.asMap());
@@ -39,6 +48,7 @@ public class MainController {
         }catch (XenSTAFException e){
             status = new STAFStatus(e.toString(), "fail");
         }
+        //if status not null == fail
         if(status == null){
             status = new STAFStatus("success", "success");
         }
@@ -46,8 +56,14 @@ public class MainController {
         mav.addObject("type", type);
         return mav;
     }
-
-
+    /**
+     * XEN-MANAGER-03
+     * Add VM By Snap-Shot
+     * @param vmName
+     * @param snapUuid
+     * @param snapName
+     * @return status - success | fail
+     */
     @RequestMapping(value = "/xen/add", method = RequestMethod.GET)
     @ResponseBody
     public STAFStatus addVMBySnapshot(@RequestParam(value = "vmName")String vmName, @RequestParam(value = "snapUuid") String snapUuid, @RequestParam(value = "snapName") String snapName){
@@ -59,7 +75,13 @@ public class MainController {
         }
         return result;
     }
-
+    /**
+     * XEN-MANAGER-04
+     * Delete VM By Name & Uuid
+     * @param vmName
+     * @param vmUuid
+     * @return status - success | fail
+     */
     @RequestMapping(value = "/xen/remove", method = RequestMethod.GET)
     @ResponseBody
     public STAFStatus deleteVM(@RequestParam(value = "vmName")String vmName, @RequestParam(value = "vmUuid") String vmUuid){
