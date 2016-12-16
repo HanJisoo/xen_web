@@ -32,13 +32,10 @@ import java.util.ArrayList;
 @SpringBootTest(classes = MainController.class, webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class XenWebServiceTest {
-
     @Autowired
     private MockMvc mvc;
-
     @Autowired
     private XenService service;
-
     @Test
     public void getListTest() throws Exception{
         ModelAndView mav = new ModelAndView("list", new ModelMap());
