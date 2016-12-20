@@ -1,3 +1,5 @@
+package com.daou.xenmanager;
+
 import com.daou.xenmanager.XenManagerApplication;
 import com.daou.xenmanager.controller.MainController;
 import com.daou.xenmanager.domain.XenObject;
