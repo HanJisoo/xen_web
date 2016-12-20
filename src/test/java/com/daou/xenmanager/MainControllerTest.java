@@ -43,8 +43,8 @@ public class MainControllerTest {
                 .accept(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(view().name("list"))
-                .andExpect(model().attribute("result", ""))
-                .andExpect(model().attribute("list", ""))
-                .andExpect(model().attribute("type", ""));
+                .andExpect(model().attributeExists("result"))
+                .andExpect(model().attributeExists("list"))
+                .andExpect(model().attributeExists("type"));
     }
 }
