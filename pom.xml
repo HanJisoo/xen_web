@@ -6,8 +6,20 @@
 
     <groupId>XenManagerWeb</groupId>
     <artifactId>XenManagerWeb</artifactId>
-    <version>0.0.1</version>
     <packaging>war</packaging>
+    <version>0.0.1</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <tomcat.version>8.5.8</tomcat.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>spring-repo</id>
+            <url>http://repo.spring.io/plugins-release</url>
+        </repository>
+    </repositories>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -53,16 +65,26 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.gemstone.gemfire</groupId>
+            <artifactId>gemfire</artifactId>
+            <version>8.2.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-data-gemfire</artifactId>
+                    <groupId>org.springframework.data</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <tomcat.version>8.5.8</tomcat.version>
-    </properties>
 
     <build>
         <finalName>xen_manager</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
