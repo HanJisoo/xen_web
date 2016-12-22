@@ -19,6 +19,10 @@
             <id>spring-repo</id>
             <url>http://repo.spring.io/plugins-release</url>
         </repository>
+        <repository>
+            <id>central</id>
+            <url>http://uk.maven.org/maven2/</url>
+        </repository>
     </repositories>
 
     <parent>
@@ -59,6 +63,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>1.4.2.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -100,8 +110,19 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1.1</version>
-                <configuration>
+                <!--<configuration>
                     <warSourceDirectory>D:\web_service</warSourceDirectory>
+                </configuration>-->
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
                 </configuration>
             </plugin>
         </plugins>
