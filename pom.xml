@@ -66,11 +66,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
@@ -128,6 +123,24 @@
     </build>
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>license</report>
+                            <report>plugin-management</report>
+                            <report>plugins</report>
+                            <report>project-team</report>
+                            <report>scm</report>
+                            <report>summary</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
             <!-- Normally, we take off the dependency report, saves time. -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
