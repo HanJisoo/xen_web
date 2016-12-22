@@ -89,7 +89,6 @@
     </dependencies>
 
     <build>
-        <finalName>xen_manager</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
