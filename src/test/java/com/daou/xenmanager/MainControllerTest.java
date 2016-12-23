@@ -8,6 +8,7 @@ import com.daou.xenmanager.util.STAFStatus;
 import com.ibm.staf.STAFResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class MainControllerTest {
                 .andExpect(model().attributeExists("list"))
                 .andExpect(model().attributeExists("type"));
     }
-
+    @Ignore
     @Test
     public void addVMBySnapshotTest() throws Exception{
         STAFStatus status = new STAFStatus("test", "success");
