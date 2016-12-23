@@ -4,7 +4,10 @@ import com.daou.xenmanager.XenManagerApplication;
 import com.daou.xenmanager.controller.MainController;
 import com.daou.xenmanager.domain.XenObject;
 import com.daou.xenmanager.service.XenService;
+import com.daou.xenmanager.util.STAFStatus;
+import com.ibm.staf.STAFResult;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +31,21 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @WebMvcTest(MainController.class)
 public class MainControllerTest {
+    private String vmName, snapName, vmUuid, snapUuid;
+
     @Autowired
     private MockMvc mvc;
 
     @MockBean
     private XenService xenService;
+
+    @Before
+    public void initVar(){
+        vmName = RandomStringUtils.randomAlphanumeric(10);
+        vmUuid = RandomStringUtils.randomAlphanumeric(15);
+        snapName = RandomStringUtils.randomAlphanumeric(10);
+        snapUuid = RandomStringUtils.randomAlphanumeric(15);
+    }
 
     @Test
     public void 리스트_테스트() throws Exception{
@@ -46,5 +59,16 @@ public class MainControllerTest {
                 .andExpect(model().attributeExists("result"))
                 .andExpect(model().attributeExists("list"))
                 .andExpect(model().attributeExists("type"));
+    }
+
+    @Test
+    public void addVMBySnapshotTest() throws Exception{
+        STAFStatus status = new STAFStatus("test", "success");
+        given(xenService.addVMBySnapshot(anyString(), anyString(), anyString())).willReturn(status);
+        mvc.perform(get("/xen/add", vmName, snapUuid, snapName)
+                .accept(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk())
+                .andExpect(view().name("add"))
+                .andExpect(model().attributeExists("result"));
     }
 }
